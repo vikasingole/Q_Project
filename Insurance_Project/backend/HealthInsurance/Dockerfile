@@ -1,6 +1,5 @@
-FROM bellsoft/liberica-openjdk-debian:17
+FROM openjdk:17
 WORKDIR /app
-COPY target/*.jar backend.jar
-EXPOSE 8089 
-ENTRYPOINT ["java", "-jar", "backend.jar"]
-
+COPY target/*.jar app.jar
+EXPOSE 8089
+ENTRYPOINT ["java", "-jar", "app.jar"]
