@@ -1,23 +1,25 @@
 version: "3.8"
 
 services:
-  backend:
-    build: ./backend
-    container_name: backend_container
-    ports:
-      - "8089:8089"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - db
-    networks:
-      - app-network
+  springboot:
+        build: .
+        image: backend_container
+        ports:
+         - "8089:8089"
+        environment:
+         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/xyz
+         SPRING_DATASOURCE_USERNAME: root
+         SPRING_DATASOURCE_PASSWORD: Macky@21
+        depends_on:
+         - db
+        networks:
+         - app-network
 
-  frontend:
-    build: ./frontend
-    container_name: frontend_container
+  react:
+    build: .
+    image: frontend_container
     ports:
-      - "80:80"
+      - "3000:3000"
     depends_on:
       - backend
     networks:
@@ -29,9 +31,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: healthdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: xyz
+      MYSQL_PASSWORD: Macky@21
     ports:
       - "3306:3306"
     volumes:
