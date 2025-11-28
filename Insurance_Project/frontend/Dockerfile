@@ -1,33 +1,19 @@
-# Note - NGINX Dockerfile for PRODUCTION (Recommended) :-
+# Build the React Application
 
-# ✔ Advantages :-
-# 1] Very fast
-# 2] Lightweight
-# 3] Optimized for production
-# 4] Industry standard
-# 5] Works perfectly behind backend API
-
-# Build stage
-FROM node:20
+FROM node:20-alpine 
 WORKDIR /app
-COPY . .
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npm run build
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
 
-# Run stage
-FROM nginx:alpine
-COPY build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# We can specify - COPY package.json* ./ [it means - include both the files, i.e. package.json and package-lock.json ]
 
-# Note - NGINX Dockerfile for DEVELOPEMENT :-
+# Serve the Static Assets using Nginx
 
-# FROM node:20
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install
-# COPY . .
 # RUN npm run build
+# FROM nginx:alpine
+# COPY --from=builder /app/build /usr/share/nginx/html
 # EXPOSE 80
-# CMD ["npm", "start"]
-
+# CMD ["nginx", "-g", "daemon off;"]
